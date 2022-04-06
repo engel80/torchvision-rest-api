@@ -8,7 +8,8 @@
 
 #####################################################################################################################
 # FROM python:3.6.6-slim
-FROM python:3.8.13-slim-buster
+# FROM python:3.8.13-slim-buster
+FROM anibali/pytorch:1.10.2-cuda11.3
 
 # Mount current directory to /app in the container image
 VOLUME ./:app/

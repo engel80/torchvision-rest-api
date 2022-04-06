@@ -13,6 +13,8 @@ ssl._create_default_https_context = ssl._create_unverified_context
 app = Flask(__name__)
 imagenet_class_index = json.load(open('imagenet_class_index.json'))
 model = models.densenet121(pretrained=True)
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+model.to(device)
 model.eval()
 
 
