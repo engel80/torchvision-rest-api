@@ -1,13 +1,12 @@
 import io
 import json
 import torch
+import ssl
 
 from torchvision import models
 import torchvision.transforms as transforms
 from PIL import Image
 from flask import Flask, jsonify, request
-
-import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -16,7 +15,6 @@ imagenet_class_index = json.load(open('imagenet_class_index.json'))
 model = models.densenet121(pretrained=True)
 model.eval()
 
-print('torch.cuda.is_available():'+ str(torch.cuda.is_available()))
 
 def transform_image(image_bytes):
     my_transforms = transforms.Compose([transforms.Resize(255),
@@ -48,6 +46,10 @@ def predict():
 @app.route("/ping")
 def ping():
     return 'OK'
+
+@app.route("/cuda")
+def ping():
+    return 'torch.cuda.is_available:'+ str(torch.cuda.is_available())
     
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=False)
