@@ -1,27 +1,50 @@
-# PyTorch Flask API
+# Setup on GPU EC2 instance
+```bash
+cd ~
+git clone https://github.com/engel80/torchvision-rest-api
+cd torchvision-rest-api
+git checkout init-commit
+git pull
+chmod +x *.sh
+chmod +x *.py
+pip3 install -r requirements.txt
 
-This repo contains a sample code to show how to create a Flask API server by deploying our PyTorch model. This is a sample code which goes with [tutorial](https://pytorch.org/tutorials/intermediate/flask_rest_api_tutorial.html).
+alias smi="watch -d -n 1 nvidia-smi"
+alias gpustat="watch -d -n 1 /home/ssm-user/.local/bin/gpustat"
+```
 
-If you'd like to learn how to deploy to Heroku, then check [this repo](https://github.com/avinassh/pytorch-flask-api-heroku).
+# Running
 
+```bash
+python app.py
+```
 
-## How to 
+# Test
 
-Install the dependencies:
+From another tab, run the smi for "watch -d -n 1 nvidia-smi"
 
-    pip install -r requirements.txt
+```bash
+smi
+```
 
+```bash
+curl http://127.0.0.1:9000/gputest
+```
 
-Run the Flask server:
+```bash
+curl -X POST -F file=@cat_pic.jpeg http://127.0.0.1:9000/predict
+```
 
-    FLASK_ENV=development FLASK_APP=app.py flask run
+# Test with gpu_burn image
 
+```bash
+cd ~
+git clone https://github.com/wilicc/gpu-burn
+cd gpu-burn
+sudo docker build -t gpu_burn .
+sudo docker run --rm --gpus all gpu_burn
+```
 
-From another tab, send the image file in a request:
+## Refeerence
 
-    curl -X POST -F file=@cat_pic.jpeg http://localhost:8000/predict
-
-
-## License
-
-The mighty MIT license. Please check `LICENSE` for more details.
+https://github.com/avinassh/pytorch-flask-api
