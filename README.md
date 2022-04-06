@@ -19,7 +19,7 @@ Run the Flask server:
 
 From another tab, send the image file in a request:
 
-    curl -X POST -F file=@cat_pic.jpeg http://localhost:5000/predict
+    curl -X POST -F file=@cat_pic.jpeg http://localhost:8000/predict
 
 
 ## License

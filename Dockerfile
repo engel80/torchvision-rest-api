@@ -18,18 +18,12 @@ COPY requirements.txt requirements.txt
 # use --proxy http://<proxy host>:port if you have proxy
 RUN pip install -r requirements.txt
 
-# Copy local directory to /app in container
-# Dont use COPY * /app/ , * will lead to lose of folder structure in /app
 COPY . /app/
-
 WORKDIR /app
-
-# In Docker, the containers themselves can have applications running on ports. To access these applications, we need to expose the containers internal port and bind the exposed port to a specified port on the host.
-# Expose port and run the application when the container is started
 EXPOSE 8000
 
-# ENTRYPOINT python flask_api.py 8000
-# CMD ["gunicorn", "flask_api:app", "--bind", "0.0.0.0:8000"]
-# ENV CUDA_VISIBLE_DEVICES=0
-
+# ENV FLASK_ENV=development 
+ENV FLASK_APP=app.py
+ 
 CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8000"]
+# CMD ["flask", "run"]

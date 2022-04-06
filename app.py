@@ -16,7 +16,7 @@ imagenet_class_index = json.load(open('imagenet_class_index.json'))
 model = models.densenet121(pretrained=True)
 model.eval()
 
-print('torch.cuda.is_available():'+ torch.cuda.is_available())
+print('torch.cuda.is_available():'+ str(torch.cuda.is_available()))
 
 def transform_image(image_bytes):
     my_transforms = transforms.Compose([transforms.Resize(255),
@@ -45,6 +45,10 @@ def predict():
         class_id, class_name = get_prediction(image_bytes=img_bytes)
         return jsonify({'class_id': class_id, 'class_name': class_name})
 
-
+@app.route("/ping")
+def ping():
+    return 'OK'
+    
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=8000, debug=False)
+    # app.run()
