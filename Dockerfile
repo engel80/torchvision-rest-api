@@ -13,6 +13,9 @@ FROM python:3.8.13-slim-buster
 # Mount current directory to /app in the container image
 VOLUME ./:app/
 
+RUN apt update && \
+    apt install htop
+
 COPY requirements.txt requirements.txt
 # Install dependencies
 # use --proxy http://<proxy host>:port if you have proxy
